@@ -3,34 +3,24 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change this to your default branch if different
-
-permissions:
-  pages: write
-  id-token: write
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Install dependencies
-      run: npm install  # Adjust this if you use yarn or another package manager
+      run: npm install
 
     - name: Build project
-      run: npm run build  # Adjust this to your build command
-
-    - name: Configure Pages
-      uses: actions/configure-pages@v5
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: ./out  # Adjust this to your build output directory
+      run: npm run build
 
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out

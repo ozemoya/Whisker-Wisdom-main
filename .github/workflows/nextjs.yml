@@ -3,24 +3,26 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # Change this to your default branch if different
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Install dependencies
-      run: npm install
+      run: npm install  # Adjust this if you use yarn or another package manager
 
     - name: Build project
-      run: npm run build
+      run: npm run build  # Adjust this to your build command
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: actions/configure-pages@v5
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out
+        enablement: true  # This enables GitHub Pages if not already enabled
+        permissions:
+          pages: write
+          id-token: write
